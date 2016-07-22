@@ -7,17 +7,21 @@
          canvas { width: 100%; height: 100% }
 
          #canvas11 {
-            opacity:    0.3;
+            opacity:    0.99;
             position:   fixed;
-            width:      100%;
-            height:     100%;
+            /*width:      100%;
+            height:     100%;*/
+            width: 0px;
+            height: 0px;
             z-index:    1;
          }
 
          #video {
-            opacity:    0.6;
+            opacity:    /*0.3;*/0.01;
             width:      100%;
             height:     100%;
+            /*width: 0px;
+            height: 0px;*/
             position:   fixed;
             z-index:    1;
          }
@@ -28,14 +32,11 @@
       <script src="assets/gyro.min.js"></script>
       <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
 
-
-
-
       <video id='video' autoplay></video>
       <canvas id='canvas11' ></canvas>
 
       <div style='color:white;position:fixed' id='yo'>This is a HTML Canvas Camera + Gyro + 3js test</div>
-      </br></br><div style='font-size:3em' id='ha'></div>
+      <div style='font-size:3em; width:130em; height: 3em; overflow: hidden' id='ha'></div>
 
       <script>
 
@@ -61,22 +62,39 @@ var backCam = true;
          var initX =  o.beta;
          var initY =  o.gamma;
 
-
 //// Loading external mesh
 
 var mesh = null;
 function initCharacterMesh() {
     var loader = new THREE.JSONLoader();
-    loader.load('./assets/three_js_character.json', function(geometry) {
+
+   //var path = './assets/three_js_character.json';
+   var path = './assets/castle_in_the_lake.json';
+    loader.load(path, function(geometry) {
+        //geometry.scale.set(5, 5, 5);
         mesh = new THREE.Mesh(geometry);
+        //mesh.scale.set(-5, -5, -5); //set(10, 10, 10);
         scene.add(mesh);
+        /*for tree
+         mesh.position.z = 0;
+         mesh.position.x = -3; mesh.position.y = -4;*/
+         mesh.position. y = -100;
+         mesh.position.z = -700;
     });
 }
 initCharacterMesh();
 
 ////
+//var noGyroPhysics = true;
+var noGyroPhysics = false;
+
          function render() {
             requestAnimationFrame(render);
+
+            renderer.render(scene, camera);
+
+            if (noGyroPhysics)
+               return;
 
             if (n > 2) {
                var o = gyro.getOrientation();
@@ -89,8 +107,8 @@ initCharacterMesh();
                   var g = o.gamma; //alpha; //gamma; //alpha; //+ initY;
                   $('#ha').html('&nbsp;x: ' + b + '</br>&nbsp;y: ' + g);
 
-                  rot_x = b * Math.PI / 180 - 1.9;
-                  rot_y = g * Math.PI / 180; //180 //+ 1.3;
+                  rot_x = b/130+50; //b * Math.PI / 180 - 1.9;
+                  rot_y = g/130; //g * Math.PI / 180; //180 //+ 1.3;
 
                   camera.rotation.x = rot_x;
                   camera.rotation.y = rot_y;
@@ -100,7 +118,6 @@ initCharacterMesh();
             }
             n++;
 
-            renderer.render(scene, camera);
          };
 
          render();
@@ -149,10 +166,10 @@ var videoSource = null;
             }, errBack);
 
          }
-         //else if(navigator.mozGetUserMedia)
-         else if(navigator.mediaDevices.getUserMedia) { // Firefox-prefixed
-            //navigator.mozGetUserMedia(videoObj, function(stream)
-            navigator.mediaDevices.getUserMedia(videoObj, function(stream){
+         else if(navigator.mozGetUserMedia) {
+         //else if(navigator.mediaDevices.getUserMedia) { // Firefox-prefixed
+            navigator.mozGetUserMedia(videoObj, function(stream) {
+            //navigator.mediaDevices.getUserMedia(videoObj, function(stream){
                video.src = window.URL.createObjectURL(stream);
                video.play();
             }, errBack);
@@ -161,7 +178,8 @@ var videoSource = null;
 
 function getRightCam() {
    //kkkk
-   if (navigator.mediaDevices.getUserMedia) {
+   //if (navigator.mediaDevices.getUserMedia) {
+   if (navigator.mozGetUserMedia) {
       startCanvas(true);
       return;
    }
