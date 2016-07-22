@@ -1,19 +1,35 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>Pokemon clone</title>
+      <title>Zombie Gyro multiplayer game</title>
       <style>
          body { margin: 0; }
          canvas { width: 100%; height: 100% }
+
+         #canvas11 {
+            opacity:    0.3;
+            position:   fixed;
+            width:      100%;
+            height:     100%;
+            z-index:    1;
+         }
+
+         #video {
+            opacity:    0.6;
+            width:      100%;
+            height:     100%;
+            position:   fixed;
+            z-index:    1;
+         }
       </style>
    </head>
    <body>
-      <script src="three.js"></script>
-      <script src="gyro.min.js"></script>
+      <script src="assets/three.js"></script>
+      <script src="assets/gyro.min.js"></script>
       <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
 
-      <video id='video' style='opacity:0.6;width:100%;height:100%;position:fixed;z-index:1' autoplay></video>
-      <canvas style='opacity:0.3;position:fixed;width:100%;height:100%;z-index:1;' id='canvas11' ></canvas>
+      <video id='video' autoplay></video>
+      <canvas id='canvas11' ></canvas>
 
       <div style='color:white;position:fixed' id='yo'>This is a HTML Canvas Camera + Gyro + 3js test</div>
       </br></br><div style='font-size:3em' id='ha'></div>
