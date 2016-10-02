@@ -24,13 +24,20 @@ SOFTWARE.
 <meta charset="UTF-8"/>
 <title>Sensors</title>
 <script type="text/javascript">
+
+var n1 = 0; var n2 = 0;
+
 function motion(event) {
+   if (n1++ < 5) return; else n1 = 0;
+
    document.getElementById("accelerometer").innerHTML = "Accelerometer: "
       + event.accelerationIncludingGravity.x + ", "
       + event.accelerationIncludingGravity.y + ", "
       + event.accelerationIncludingGravity.z;
 }
 function orientation(event) {
+   if (n2++ < 10) return; else n2 = 0;
+
    document.getElementById("magnetometer").innerHTML = "Magnetometer: "
       + event.alpha + ", "
       + event.beta + ", "
